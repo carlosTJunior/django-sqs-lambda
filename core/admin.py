@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from core.models import TransferOrder
+
+
+@admin.register(TransferOrder)
+class TransferOrderAdmin(admin.ModelAdmin):
+    pass
