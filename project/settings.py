@@ -81,7 +81,7 @@ DATABASES = {
         "NAME": "api_database",
         "USER": "postgres",
         "PASSWORD": "supersecret",
-        "HOST": "database"
+        "HOST": "database",
     }
 }
 
