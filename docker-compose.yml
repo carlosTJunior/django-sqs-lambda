@@ -1,0 +1,10 @@
+version: "3.5"
+
+services:
+  api_server:
+    build: .
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:3000"
+    volumes:
+      - .:/api
+    ports:
+      - 8000:3000
