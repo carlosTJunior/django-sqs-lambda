@@ -29,6 +29,12 @@ variáveis de sistema:
 Essas variáveis são necessários para que a aplicação que executa dentro do container 
 consiga enviar os dados para a AWS.
 
+Após setar as variáveis de ambiente, basta executar o projeto com o _docker-compose_
+
+    docker-compose up -d
+
+O projeto estará disponível em http://localhost:8000
+
 ## API
 
 O recurso utilizado na API se chama _TransferOrder_ e é uma simples representação de
@@ -41,7 +47,35 @@ mecanismos que permitam identificar que uma transação já foi processada antes
 
 ## Metodos da API
 
-### GET
 ### POST
+Para fazer o POST devemos mandar a requisição para o _endpoint_ localhost:8000/api/v1/transfer-orders/
+passando como corpo da requisição um JSON no seguinte formato:
+
+    {
+        "transaction_hash": "2d5858dc-38df-41df-9b0e-6a062d6bbfff",
+        "amount": "2500.00",
+        "sender_account": 23939,
+        "receiver_account": 23949
+    }
+
+### GET
+Para listar todas as transações realizadas, basta fazer o GET em localhost:8000/api/v1/transfer-orders.
+Para buscar apenas uma transação, devemos usar o atributo _transaction_hash_ da seguinte forma:
+    localhost:8000/api/v1/transfer-orders/<transaction_hash>
+
 ### DELETE
-### UPDATE
+Para remover uma transação, devemos encaminhar uma requisição DELETE para o endpoint:
+    localhost:8000/api/v1/transfer-orders/<transaction_hash>/
+**OBS: é importante não esquecer o / ao final da URL.**
+
+### PUT
+Para fazer a atualização (podemos atualizar os atributos _amount_, _sender_account_, e
+_receiver_account_), devemos fazer a requisição PUT para 
+localhost:8000/api/v1/transfer-orders/<transaction_hash>/ passando o JSON:
+
+    {
+        "amount": "2500.00",
+        "sender_account": 23939,
+        "receiver_account": 23949
+    }
+
