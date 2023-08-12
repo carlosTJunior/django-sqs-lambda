@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  api_server:
+    build: .
+    command: bash -c 'while !</dev/tcp/database/5432; do sleep 1; done; python manage.py migrate && python manage.py runserver 0.0.0.0:3000'
+    volumes:
+      - .:/api
+    ports:
+      - 8000:3000
+    depends_on:
+      - database
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - AWS_SQS_QUEUE_URL=${AWS_SQS_QUEUE_URL}
+
+  database:
+    image: postgres:15.3-alpine
+    environment:
+      POSTGRES_PASSWORD: "supersecret"
+      POSTGRES_DB: "api_database"
+    ports:
+      - 5432:5432
